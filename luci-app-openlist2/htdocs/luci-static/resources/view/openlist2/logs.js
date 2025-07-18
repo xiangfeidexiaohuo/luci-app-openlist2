@@ -10,8 +10,8 @@ var userScrolled = false;
 var logTextarea;
 var log_path;
 
-uci.load('openlist').then(function() {
-	log_path = uci.get('openlist', '@openlist[0]', 'log_path') || '/var/log/openlist.log';
+uci.load('openlist2').then(function() {
+	log_path = uci.get('openlist2', '@openlist2[0]', 'log_path') || '/var/log/openlist2.log';
 });
 
 function pollLog() {

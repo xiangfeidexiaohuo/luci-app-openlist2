@@ -6,12 +6,12 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=openlist
+PKG_NAME:=openlist2
 PKG_VERSION:=4.0.8
 PKG_WEB_VERSION:=4.0.8
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE:=openlist-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$(PKG_VERSION)?
 PKG_HASH:=216a7c7c66de9bcff59ab946874a8b4641b2b6e90c5236bd45bf8219149c5a3d
 
@@ -47,7 +47,7 @@ endif
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
-define Package/openlist
+define Package/openlist2
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=Web Servers/Proxies
@@ -56,12 +56,12 @@ define Package/openlist
   DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
 endef
 
-define Package/openlist/conffiles
-/etc/openlist
-/etc/config/openlist
+define Package/openlist2/conffiles
+/etc/openlist2
+/etc/config/openlist2
 endef
 
-define Package/openlist/description
+define Package/openlist2/description
   A file list program that supports multiple storage, powered by Gin and Solidjs.
 endef
 
@@ -84,15 +84,15 @@ define Build/Prepare
 	$(SED) 's_https://docs.oplist.org_/assets_g' $(PKG_BUILD_DIR)/public/dist/static/manifest.json
 endef
 
-define Package/openlist/install
+define Package/openlist2/install
 	$(call GoPackage/Package/Install/Bin,$(PKG_INSTALL_DIR))
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/OpenList $(1)/usr/bin/openlist
-	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d $(1)/etc/openlist
-	$(INSTALL_CONF) $(CURDIR)/files/openlist.config $(1)/etc/config/openlist
-	$(INSTALL_BIN) $(CURDIR)/files/openlist.init $(1)/etc/init.d/openlist
-	$(INSTALL_DATA) $(CURDIR)/files/data.db $(1)/etc/openlist/data.db
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/OpenList $(1)/usr/bin/openlist2
+	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d $(1)/etc/openlist2
+	$(INSTALL_CONF) $(CURDIR)/files/openlist2.config $(1)/etc/config/openlist2
+	$(INSTALL_BIN) $(CURDIR)/files/openlist2.init $(1)/etc/init.d/openlist2
+	$(INSTALL_DATA) $(CURDIR)/files/data.db $(1)/etc/openlist2/data.db
 endef
 
 $(eval $(call Download,openlist-frontend))
-$(eval $(call BuildPackage,openlist))
+$(eval $(call BuildPackage,openlist2))

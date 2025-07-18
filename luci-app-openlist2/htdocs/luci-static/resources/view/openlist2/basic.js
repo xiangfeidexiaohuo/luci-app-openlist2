@@ -14,10 +14,10 @@ var callServiceList = rpc.declare({
 });
 
 function getServiceStatus() {
-	return L.resolveDefault(callServiceList('openlist'), {}).then(function (res) {
+	return L.resolveDefault(callServiceList('openlist2'), {}).then(function (res) {
 		var isRunning = false;
 		try {
-			isRunning = res['openlist']['instances']['openlist']['running'];
+			isRunning = res['openlist2']['instances']['openlist2']['running'];
 		} catch (e) { }
 		return isRunning;
 	});
@@ -46,14 +46,14 @@ function renderStatus(isRunning, protocol, webport, site_url) {
 return view.extend({
 	load: function () {
 		return Promise.all([
-			uci.load('openlist')
+			uci.load('openlist2')
 		]);
 	},
 
 	handleResetPassword: async function (data) {
-		var data_dir = uci.get(data[0], '@openlist[0]', 'data_dir') || '/etc/openlist';
+		var data_dir = uci.get(data[0], '@openlist2[0]', 'data_dir') || '/etc/openlist2';
 		try {
-			var newpassword = await fs.exec('/usr/bin/openlist', ['admin', 'random', '--data', data_dir]);
+			var newpassword = await fs.exec('/usr/bin/openlist2', ['admin', 'random', '--data', data_dir]);
 			var new_password = newpassword.stderr.match(/password:\s*(\S+)/)[1];
 			const textArea = document.createElement('textarea');
 			textArea.value = new_password;
@@ -69,17 +69,17 @@ return view.extend({
 
 	render: function (data) {
 		var m, s, o;
-		var webport = uci.get(data[0], '@openlist[0]', 'port') || '5244';
-		var ssl = uci.get(data[0], '@openlist[0]', 'ssl') || '0';
+		var webport = uci.get(data[0], '@openlist2[0]', 'port') || '5244';
+		var ssl = uci.get(data[0], '@openlist2[0]', 'ssl') || '0';
 		var protocol;
 		if (ssl === '0') {
 			protocol = 'http:';
 		} else if (ssl === '1') {
 			protocol = 'https:';
 		}
-		var site_url = uci.get(data[0], '@openlist[0]', 'site_url') || '';
+		var site_url = uci.get(data[0], '@openlist2[0]', 'site_url') || '';
 
-		m = new form.Map('openlist', _('OpenList'),
+		m = new form.Map('openlist2', _('OpenList'),
 			_('A file list program that supports multiple storage.'));
 
 		s = m.section(form.TypedSection);
@@ -99,7 +99,7 @@ return view.extend({
 			]);
 		}
 
-		s = m.section(form.NamedSection, '@openlist[0]', 'openlist');
+		s = m.section(form.NamedSection, '@openlist2[0]', 'openlist2');
 
 		s.tab('basic', _('Basic Settings'));
 		s.tab('global', _('Global Settings'));
@@ -185,7 +185,7 @@ return view.extend({
 		o.rmempty = false;
 
 		o = s.taboption('log', form.Value, 'log_path', _('Log path'));
-		o.default = '/var/log/openlist.log';
+		o.default = '/var/log/openlist2.log';
 		o.rmempty = false;
 		o.depends('log', '1');
 

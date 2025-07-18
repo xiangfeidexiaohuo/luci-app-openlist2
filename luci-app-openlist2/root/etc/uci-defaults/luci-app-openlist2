@@ -2,9 +2,9 @@
 
 [ -f "/etc/config/ucitrack" ] && {
 uci -q batch <<-EOF >/dev/null
-	delete ucitrack.@openlist[-1]
-	add ucitrack openlist
-	set ucitrack.@openlist[-1].init=openlist
+	delete ucitrack.@openlist2[-1]
+	add ucitrack openlist2
+	set ucitrack.@openlist2[-1].init=openlist2
 	commit ucitrack
 EOF
 }
